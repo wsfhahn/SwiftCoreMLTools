@@ -94,6 +94,7 @@ public struct Convolution : TrainableLayer {
     public let bias: [Float]
 
     public let outputChannels: UInt
+    public let inputChannels: UInt
     public let kernelChannels: UInt
     public let nGroups: UInt
     public let kernelSize: [UInt]
@@ -115,12 +116,6 @@ public struct Convolution : TrainableLayer {
             self.weight = weight
             self.bias = bias
         }
-        else if kernelSize.count == 2 {
-            let inputChannels = kernelChannels * kernelSize[0] * kernelSize[1]
-            let (randomWeight, randomBias) = Self.getUniformWeigthsAndBias(inputChannels: inputChannels, outputChannels: outputChannels)
-            self.weight = randomWeight
-            self.bias = randomBias
-        }
         else {
             print("Wrong kernelSize shape")
             self.weight = [Float]()
@@ -128,6 +123,7 @@ public struct Convolution : TrainableLayer {
         }
 
         self.outputChannels = outputChannels
+        self.inputChannels = inputChannels
         self.kernelChannels = kernelChannels
         self.nGroups = nGroups
         self.kernelSize = kernelSize
